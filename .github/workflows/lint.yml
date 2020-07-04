@@ -1,0 +1,17 @@
+name: lint all
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: run linter
+        run: docker run -v $(pwd):/app -w /app golangci/golangci-lint:v1.21.0 golangci-lint run ./... -v --enable "gofmt,golint,scopelint,gocritic"
